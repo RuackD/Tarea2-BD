@@ -12,20 +12,84 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  lastname String?
-  posts Post[]
+model Personajes {
+id Int @unique
+nombre String?
+fuerza Int?
+fecha_nacimiento DateTime?
+objeto String?
+
+kart Karts[]
+
+persona_tiene_trabajo Persona_tiene_trabajo[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Kart {
+  id Int @unique
+  modelo String?
+  color String?
+  velocidad_maxima Int
+
+personaje Personajes @relation(fields: [id_personaje], references: [id])
+id_personaje Int
+}
+
+model Persona_tiene_trabajo {
+  id_trabajo Int @unique
+  trabajo Trabajos @relation(fields: [id_trabajo],references: [id])
+
+  id_personaje Int @unique
+  personaje Personajes @relation(fields: [id_personaje],references: [id])
+
+  fecha_inicio DateTime
+  fecha_termino DateTime?
+
+}
+
+model Trabajos {
+  id Int @unique
+  descricpion String
+  sueldo Int
+
+  persona_tiene_trabajo Persona_tiene_trabajo[]
+}
+
+model Personaje_habita_reino{
+  id_personaje Int @unique
+  personaje Personajes @relation(fields: [id_personaje], references: [id])
+
+  id_reino Int @unique
+  reino Reinos @relation(fields: [id_reino], references: [id])
+
+  fecha_registro DateTime
+  es_gobernante Boolean
+}
+
+model Reinos{
+  id Int @unique
+  nombre String
+  ubicacion String
+  superficie Int
+  
+  personaje_habita_reino Personaje_habita_reino[]
+
+  defesas_reino Defensas_reino[]
+
+  diplomacia1 Diplomacia[] @relation("reino1")
+  diplomacia2 Diplomacia[] @relation("reino2")
+}
+
+model Defensas_reino{
+  id_reino Int @unique
+  reino Reinos @relation(fields: [id_reino],references: [id])
+  id_defensas Int @unique
+  defensas Defensas @relation(fields: [id_defensas],references: [id])
+}
+
+model Defensas{
+  id Int @unique
+  defensa String
+
+  defesas_reino Defensas_reino[]
 }
 
