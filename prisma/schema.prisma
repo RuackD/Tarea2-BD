@@ -14,24 +14,26 @@ datasource db {
 
 model Personajes {
 id Int @unique
-nombre String?
-fuerza Int?
-fecha_nacimiento DateTime?
+nombre String
+fuerza Int
+fecha_nacimiento DateTime
 objeto String?
 
 kart Karts[]
 
 persona_tiene_trabajo Persona_tiene_trabajo[]
+
+persona_habita_reino  Personaje_habita_reino[]
 }
 
-model Kart {
+model Karts {
   id Int @unique
-  modelo String?
-  color String?
-  velocidad_maxima Int
+  modelo String
+  color String
+  velocidad_maxima Int?
 
-personaje Personajes @relation(fields: [id_personaje], references: [id])
-id_personaje Int
+  personaje Personajes? @relation(fields: [id_personaje], references: [id])
+  id_personaje Int
 }
 
 model Persona_tiene_trabajo {
@@ -93,3 +95,11 @@ model Defensas{
   defesas_reino Defensas_reino[]
 }
 
+model Diplomacia {
+  id_reino_1 Int @unique
+  reino Reinos @relation("reino1",fields: [id_reino_1], references: [id])
+  id_reino_2 Int @unique
+  reino2 Reinos @relation("reino2",fields: [id_reino_2], references: [id])
+
+  es_aliado Boolean?
+}
