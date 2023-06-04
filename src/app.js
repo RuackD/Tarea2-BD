@@ -1,5 +1,5 @@
 import express from 'express';
-import UsersController from './controllers/UsersController.js';
+import UsersController from './controllers/PersonajesController.js';
 import morgan from 'morgan';
 
 const ENV = process.env;
@@ -14,6 +14,7 @@ app.get('/users', UsersController.getUsers)
 app.get('/users/:id', UsersController.getUserById)
 app.post('/users', UsersController.createUser)
 app.get('/users/:id/posts', UsersController.usersPosts)
+
 
 
 //==========================================================//
@@ -31,5 +32,5 @@ app.use((_, res) => {
 
 //Init server
 app.listen(ENV.API_PORT, () => {
-    console.log(`Server running on port ${ENV.API_PORT}`);
+    console.log(`Server running on port ${3000}`);
 })

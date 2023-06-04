@@ -13,21 +13,21 @@ datasource db {
 }
 
 model Personajes {
-id Int @unique
-nombre String
-fuerza Int
-fecha_nacimiento DateTime
-objeto String?
+  id Int @unique
+  nombre String
+  fuerza Int
+  fecha_nacimiento DateTime 
+  objeto String?
 
-kart Karts[]
+  kart Karts[]
 
-persona_tiene_trabajo Persona_tiene_trabajo[]
+  persona_tiene_trabajo Persona_tiene_trabajo[]
 
-persona_habita_reino  Personaje_habita_reino[]
+  persona_habita_reino  Personaje_habita_reino[]
 }
 
 model Karts {
-  id Int @unique
+  id Int @unique 
   modelo String
   color String
   velocidad_maxima Int?
@@ -50,7 +50,7 @@ model Persona_tiene_trabajo {
 
 model Trabajos {
   id Int @unique
-  descricpion String
+  descripcion String
   sueldo Int
 
   persona_tiene_trabajo Persona_tiene_trabajo[]
@@ -75,29 +75,29 @@ model Reinos{
   
   personaje_habita_reino Personaje_habita_reino[]
 
-  defesas_reino Defensas_reino[]
+  defensas_reinos Defensas_reinos[]
 
-  diplomacia1 Diplomacia[] @relation("reino1")
-  diplomacia2 Diplomacia[] @relation("reino2")
+  diplomacia1 Diplomacias[] @relation("reino1")
+  diplomacia2 Diplomacias[] @relation("reino2")
 }
 
-model Defensas_reino{
-  id_reino Int @unique
-  reino Reinos @relation(fields: [id_reino],references: [id])
+model Defensas_reinos{
+  id_reinos Int @unique
+  reino Reinos @relation(fields: [id_reinos],references: [id])
   id_defensas Int @unique
-  defensas Defensas @relation(fields: [id_defensas],references: [id])
+  defensa Defensas @relation(fields: [id_defensas],references: [id])
 }
 
 model Defensas{
   id Int @unique
   defensa String
 
-  defesas_reino Defensas_reino[]
+  defensas_reinos Defensas_reinos[]
 }
 
-model Diplomacia {
+model Diplomacias {
   id_reino_1 Int @unique
-  reino Reinos @relation("reino1",fields: [id_reino_1], references: [id])
+  reino1 Reinos @relation("reino1",fields: [id_reino_1], references: [id])
   id_reino_2 Int @unique
   reino2 Reinos @relation("reino2",fields: [id_reino_2], references: [id])
 
