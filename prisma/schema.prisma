@@ -21,9 +21,9 @@ model Personajes {
 
   kart Karts[]
 
-  persona_tiene_trabajo Persona_tiene_trabajo[]
+  personaje_tiene_trabajo Personaje_tiene_trabajo[]
 
-  persona_habita_reino  Personaje_habita_reino[]
+  personaje_habita_reino  Personaje_habita_reino[]
 }
 
 model Karts {
@@ -36,7 +36,7 @@ model Karts {
   id_personaje Int
 }
 
-model Persona_tiene_trabajo {
+model Personaje_tiene_trabajo {
   id_trabajo Int @unique
   trabajo Trabajos @relation(fields: [id_trabajo],references: [id])
 
@@ -53,7 +53,7 @@ model Trabajos {
   descripcion String
   sueldo Int
 
-  persona_tiene_trabajo Persona_tiene_trabajo[]
+  personaje_tiene_trabajo Personaje_tiene_trabajo[]
 }
 
 model Personaje_habita_reino{

@@ -15,7 +15,7 @@ const createDefensas = async (req, res) => {
     }
 };
 
-const getAllDefensas = async (req, res) => {
+const getDefensas = async (req, res) => {
     try{
         const defensas = await prisma.defensas.findMany()
         return res.status(200).json({defensas, message: 'Defensas retornadas con exito'})
@@ -47,12 +47,20 @@ const updateDefensas = async (req, res) => {
     try{
         const { id } = req.params
         const { defensa } = req.body
+        const verify = await prisma.defensas.findUnique({
+            where: {
+               id: Number(id)
+            }
+        })
+        if(!verify){
+            res.status(404).json({error: 'No existe una  defensa con esa id, verificala'})
+        }
         const defensas = await prisma.defensas.update({
             where: {
                 id: Number(id)
             },
             data: {
-                defensa: defensa || defensas.defensa
+                defensa: defensa || verify.defensa
             }
         })
         if(!defensas){
@@ -87,7 +95,7 @@ export default DefensasController
 
 const DefensasController = {
     createDefensas,
-    getAllDefensas,
+    getDefensas,
     getDefensasById,
     updateDefensas,
     deleteDefensas

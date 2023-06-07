@@ -22,8 +22,8 @@ const createDefensas_reinos = async (req, res) => {
 
     const defensas_reinos = await prisma.defensas_reinos.create({
       data: {
-        id_reinos: {connect: {id_reinos: id_reinos}},
-        id_defensas: {connect: {id_defensas: id_defensas}}
+        id_reinos: {connect: {id_reinos: reinos.id}},
+        id_defensas: {connect: {id_defensas: defensas.id}}
       }
     })
     return res.status(200).json({defensas_reinos, message: 'Interseccion defensas_reino creada con exito'})
@@ -52,12 +52,6 @@ const getDefensas_reinosById = async (req, res) => {
         id_defensas: Number(id_defensas)
     }
   })
-  if(!id_reinos){
-    return res.status(404).json({error: 'Debes ingrear una id de reino valida'})
-  }
-  if(!id_defensas){
-    return res.status(404).json({error: 'Debes ingrear una id de defensas valida'})
-  }
   if(!defensas_reinos){
     return res.status(404).json({error: 'No existe una interseccion entre las ids entregadas, verificalas'})
   }
@@ -72,11 +66,14 @@ const getDefensas_reinosById = async (req, res) => {
 const updateDefensas_reinos = async (req, res) => {
   try{
     const {id_reinos, id_defensas} = req.params
-    if(!id_reinos){
-      return res.status(404).json({error: 'Debes ingrear una id de reino valida'})
-    }
-    if(!id_defensas){
-      return res.status(404).json({error: 'Debes ingrear una id de defensas valida'})
+    const verify = await prisma.defensas_reinos.findUnique({
+      where: {
+        id_reinos: Number(id_reinos),
+        id_defensas: Number(id_defensas)
+      }
+    })
+    if(!verify){
+      res.status(404).json({error: 'No existe interseccion entre ids proporcionadas, verifiquelas'})
     }
     const defensas_reinos = await prisma.defensas_reinos.update({
       where: {

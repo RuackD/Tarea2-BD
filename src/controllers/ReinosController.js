@@ -17,7 +17,7 @@ const createReinos = async (req, res) => {
     }
 };
 
-const getAllReinos = async (req, res) => {
+const getReinos = async (req, res) => {
     try{
         const reinos = await prisma.reinos.findMany();
         return res.status(200).json({reinos, message: 'Reinos retornados con exito'});
@@ -49,6 +49,14 @@ const updateReinos = async (req, res) => {
     try{
         const { id } = req.params
         const {nombre, ubicacion, superficie} = req.body
+        const verify = await prisma.reinos.findUnique({
+            where: {
+                id: Number(id)
+            }
+        })
+        if(!verify){
+            return res.status(404).json({error: 'No existe reino con ese id'})
+        }
         const reinos = await prisma.reinos.update({
             where: {
                 id: Number(id)
@@ -59,9 +67,6 @@ const updateReinos = async (req, res) => {
                 superficie: superficie	|| reinos.superficie
             }
         })
-        if(!reinos){
-            return res.status(404).json({error: 'No existe reino con ese id'})
-        }
         return res.status(200).json({reinos, message: 'Reino actualizado con existo'})
     }catch(error){
         console.error(error)
@@ -72,14 +77,19 @@ const updateReinos = async (req, res) => {
 const deleteReinos = async (req , res) => {
     try{
         const{ id } = req.params
+        const verify = await prisma.reinos.findUnique({
+            where: {
+                id: Number(id)
+            }
+        })
+        if(!verify){
+            return res.status(404).json({error: 'No existe reino con ese id'})
+        }
         const reinos = await prisma.reinos.delete({
             where: { 
                 id: Number(id)
             }
         })
-        if(!reinos){
-            return res.status(404).json({error: 'No existe un reino con esa id'})
-        }
         return  res.status(200).json({reinos, message: 'Reino eliminado con exito'});
     }catch(error){
         console.error(error)
@@ -87,12 +97,12 @@ const deleteReinos = async (req , res) => {
     }
 };
 
-export default ReinosController
-
 const ReinosController = {
     createReinos,
-    getAllReinos,
+    getReinos,
     getReinosById,
     updateReinos,
     deleteReinos
 };
+
+export default ReinosController

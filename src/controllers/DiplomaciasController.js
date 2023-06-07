@@ -22,8 +22,8 @@ const createDiplomacias = async (req, res) => {
 
     const diplomacias = await prisma.diplomacias.create({
       data: {
-        id_reino1: {connect: {id_reino1: id_reino1}},
-        id_id_reino2: {connect: {id_reino2: id_reino2}},
+        id_reino_1: {connect: {id_reino_1: reino1.id}},
+        id_reino_2: {connect: {id_reino_2: reino2.id}},
         es_aliado
       }
     })
@@ -49,8 +49,8 @@ const getDiplomaciasById = async (req, res) => {
   const {id_reino1, id_reino2} = req.params
   const diplomacias = await prisma.diplomacias.findUnique({
     where: {
-        id_reino1 : Number(id_reino1),
-        id_reino2: Number(id_reino2)
+        id_reino_1 : Number(id_reino1),
+        id_reino_2: Number(id_reino2)
     }
   })
   if(!id_reino1){
@@ -62,7 +62,7 @@ const getDiplomaciasById = async (req, res) => {
   if(!diplomacias){
     return res.status(404).json({error: 'No existe una diplomacia entre las ids entregadas, verificalas'})
   }
-  return res.status(200).json({personaje_tiene_trabajo, message: 'Diplomacia retornada con exito'})
+  return res.status(200).json({diplomacias, message: 'Diplomacia retornada con exito'})
   
  }catch (error) {
     console.error(error)
@@ -72,22 +72,26 @@ const getDiplomaciasById = async (req, res) => {
 
 const updateDiplomacias = async (req, res) => {
   try{
-    const {id_reino1, id_reino2, es_aliado} = req.params
-    if(!id_reino1){
-      return res.status(404).json({error: 'Debes ingrear una id de reino valida'})
-    }
-    if(!id_reino2){
-      return res.status(404).json({error: 'Debes ingrear una id de reino valida'})
+    const {id_reino1, id_reino2} = req.params
+    const {es_aliado} = req.body
+    const verify = await prisma.diplomacia.findUnique({
+        where: {
+            id_reino_1: Number(id_reino1),
+            id_reino_2: Number(id_reino2)
+        }
+    })
+    if(!verify){
+        res.status(404).json({error: 'No existe interseccion con los ids entregados, verifiquelos'})
     }
     const diplomacias = await prisma.diplomacias.update({
       where: {
-        id_reino1 : Number(id_reino1),
-        id_reino2: Number(id_reino2)
+        id_reino_1 : Number(id_reino1),
+        id_reino_2: Number(id_reino2)
         }
     },
     {
       data: {
-        es_aliado: es_aliado || diplomacias.es_aliado
+        es_aliado: es_aliado || verify.es_aliado
       }
     })
     if(!diplomacias){
@@ -102,33 +106,20 @@ const updateDiplomacias = async (req, res) => {
 
 const deleteDiplomacias = async (req, res) => {
   try{
-    const {id_reino1, id_reino2} = req.params
-    if(!id_reino1){
-      return res.status(404).json({error: 'Debes ingrear una id de reino valida'})
-    }
-    if(!id_reino2){
-      return res.status(404).json({error: 'Debes ingrear una id de reino valida'})
-    }
-    const verify1 = await prisma.diplomacias.findUnique({
+    const {id_reino1, id_reino2} = req.params   
+    const verify = await prisma.diplomacias.findUnique({
       where: {
-        id_reino1: Number(id_reino1),
+        id_reino_1: Number(id_reino1),
+        id_reino_2: Number(id_reino2)
       }
     })
-    const verify2 = await prisma.diplomacias.findUnique({
-        where: {
-          id_reino2: Number(id_reino2),
-        }
-    })
-    if(!verify1){
+    if(!verify){
       return res.status(404).json({error: 'No existe una interseccion con las ids entregadas, verificalas' })
-    }
-    if(!verify2){
-        return res.status(404).json({error: 'No existe una interseccion con las ids entregadas, verificalas' })
     }
     const diplomacias = await prisma.diplomacias.delete({
       where: {
-        id_reino1: Number(id_reino1),
-        id_reino2: Number(id_reino2)
+        id_reino_1: Number(id_reino1),
+        id_reino_2: Number(id_reino2)
       }
     })
     return res.status(200).json({message: 'Diplomacias eliminada con exito'}) 

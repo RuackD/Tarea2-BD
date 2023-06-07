@@ -16,7 +16,7 @@ const createTrabajos = async (req, res) => {
     }
   };
 
-const getAllTrabajos = async (req, res) => {
+const getTrabajos = async (req, res) => {
     try{
         const trabajos = await prisma.trabajos.findMany()
         return res.status(200).json({trabajos, message: 'Trabajo creados con exito'})
@@ -89,7 +89,7 @@ export default TrabajosController
 
 const TrabajosController = {
     createTrabajos,
-    getAllTrabajos,
+    getTrabajos,
     getTrabajosById, 
     updateTrabajos,
     deleteTrabajos

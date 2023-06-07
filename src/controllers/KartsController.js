@@ -18,7 +18,7 @@ const createKarts = async (req, res) => {
     }
   };
 
-const getAllKarts = async (req, res) => {
+const getKarts = async (req, res) => {
     try{
         const karts = await prisma.karts.findMany()
         return res.status(200).json({karts, message: 'Karts retornados con exito'})
@@ -93,7 +93,7 @@ export default KartsController
 
 const KartsController = {
     createKarts,
-    getAllKarts,
+    getKarts,
     getKartsById, 
     updateKarts,
     deleteKarts

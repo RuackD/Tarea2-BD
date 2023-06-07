@@ -18,7 +18,7 @@ const createPersonajes = async (req , res) => {
     }
   };
 
-const getAllPersonajes = async (req, res) => {
+const getPersonajes = async (req, res) => {
     try{
         const personajes = await prisma.personajes.findMany()
         return res.status(200).json({personajes, message: 'Personajes retornados con exito'})
@@ -92,7 +92,7 @@ const deletePersonajes = async (req, res) => {
       
 const PersonajesController = {
     createPersonajes,
-    getAllPersonajes,
+    getPersonajes,
     getPersonajesById, 
     updatePersonajes,
     deletePersonajes
