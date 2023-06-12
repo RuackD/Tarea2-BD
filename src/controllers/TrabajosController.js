@@ -85,7 +85,7 @@ const deleteTrabajos = async (req, res) => {
     }
     };
       
-export default TrabajosController
+
 
 const TrabajosController = {
     createTrabajos,
@@ -94,3 +94,5 @@ const TrabajosController = {
     updateTrabajos,
     deleteTrabajos
 };
+
+export default TrabajosController

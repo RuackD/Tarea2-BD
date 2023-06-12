@@ -129,4 +129,4 @@ const Personaje_habita_reinoController = {
   deletePersonaje_habita_reino
 };
 
-export default Personaje_habita_reinoController;
+export default Personaje_habita_reinoController

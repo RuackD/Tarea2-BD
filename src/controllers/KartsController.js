@@ -89,7 +89,7 @@ const deleteKarts = async (req, res) => {
     }
     };
       
-export default KartsController
+
 
 const KartsController = {
     createKarts,
@@ -98,3 +98,5 @@ const KartsController = {
     updateKarts,
     deleteKarts
 };  
+
+export default KartsController

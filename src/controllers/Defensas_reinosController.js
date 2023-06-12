@@ -132,4 +132,4 @@ const Defensas_reinosController = {
   deleteDefensas_reinos
 };
 
-export default Defensas_reinosController;
+export default Defensas_reinosController

@@ -136,4 +136,4 @@ const Personaje_tiene_trabajoController = {
   deletePersonaje_tiene_trabajo
 };
 
-export default Personaje_tiene_trabajoController;
+export default Personaje_tiene_trabajoController

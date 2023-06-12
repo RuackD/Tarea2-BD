@@ -91,7 +91,6 @@ const deleteDefensas = async (req, res) => {
     }
 };
 
-export default DefensasController
 
 const DefensasController = {
     createDefensas,
@@ -99,4 +98,6 @@ const DefensasController = {
     getDefensasById,
     updateDefensas,
     deleteDefensas
-}
+};
+
+export default DefensasController

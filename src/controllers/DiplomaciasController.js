@@ -138,4 +138,4 @@ const DiplomaciasController = {
   deleteDiplomacias
 };
 
-export default DiplomaciasController;
+export default DiplomaciasController
