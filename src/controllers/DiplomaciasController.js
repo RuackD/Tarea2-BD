@@ -81,7 +81,7 @@ const updateDiplomacias = async (req, res) => {
         }
     })
     if(!verify){
-        res.status(404).json({error: 'No existe interseccion con los ids entregados, verifiquelos'})
+        return res.status(404).json({error: 'No existe interseccion con los ids entregados, verifiquelos'})
     }
     const diplomacias = await prisma.diplomacias.update({
       where: {
@@ -94,10 +94,7 @@ const updateDiplomacias = async (req, res) => {
         es_aliado: es_aliado || verify.es_aliado
       }
     })
-    if(!diplomacias){
-      return res.status(404).json({error: 'No existe una diplomacia entre las ids entregadas, verificalas'})
-    }
-    res.status(200).json({diplomacias, message: 'Diplomacia actualizada con exito'})
+    return res.status(200).json({diplomacias, message: 'Diplomacia actualizada con exito'})
   }catch (error) {
     console.error(error)
     res.status(500).json({error: 'Error actualizando la diplomacia, verifique los datos'})
