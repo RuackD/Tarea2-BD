@@ -82,8 +82,8 @@ const updatePersonaje_habita_reino = async (req, res) => {
     },
     {
       data: {
-        fecha_registro: fecha_registro || personaje_habita_reino.fecha_registro,
-        es_gobernante: es_gobernante || personaje_habita_reino.es_gobernante
+        fecha_registro: fecha_registro || verify.fecha_registro,
+        es_gobernante: es_gobernante || verify.es_gobernante
       }
     })
     if(!personaje_habita_reino){
