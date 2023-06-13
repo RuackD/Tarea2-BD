@@ -62,9 +62,9 @@ const updateReinos = async (req, res) => {
                 id: Number(id)
             },
             data: {
-                nombre: nombre || reinos.nombre,
-                ubicacion: ubicacion || reinos.ubicacion,
-                superficie: superficie	|| reinos.superficie
+                nombre: nombre || verify.nombre,
+                ubicacion: ubicacion || verify.ubicacion,
+                superficie: superficie	|| verify.superficie
             }
         })
         return res.status(200).json({reinos, message: 'Reino actualizado con existo'})
