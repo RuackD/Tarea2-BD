@@ -59,6 +59,9 @@ const updateKarts = async (req, res) => {
             return res.status(404).json({error: 'No existe un kart con esa id'})
         }
         const karts = await prisma.karts.update({
+            where{
+                id: Number(id)    
+            },        
             data: {
                 modelo: modelo || verify.modelo,
                 color: color || verify.color,
