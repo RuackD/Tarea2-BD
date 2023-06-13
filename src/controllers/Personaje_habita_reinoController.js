@@ -86,10 +86,7 @@ const updatePersonaje_habita_reino = async (req, res) => {
         es_gobernante: es_gobernante || verify.es_gobernante
       }
     })
-    if(!personaje_habita_reino){
-      return res.status(404).json({error: 'No existe una interseccion entre las ids entregadas, verificalas'})
-    }
-    res.status(200).json({personaje_habita_reino, message: 'Interseccion actualizada con exito'})
+    return res.status(200).json({personaje_habita_reino, message: 'Interseccion actualizada con exito'})
   }catch (error) {
     console.error(error)
     res.status(500).json({error: 'Error actualizando la interseccion, verifique los datos'})
