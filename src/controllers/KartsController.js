@@ -50,25 +50,20 @@ const updateKarts = async (req, res) => {
     try{
         const { id } = req.params
         const { modelo, color, velocidad_maxima, id_personaje } = req.body
-        const verify = await prisma.karts.findUnique({
-            where{
-                id: Number(id)    
+        const karts = await prisma.karts.update({   
+            where: { 
+                id: Number(id) 
+            },
+            data: {
+                modelo: modelo || karts.modelo,
+                color: color || karts.color,
+                velocidad_maxima: velocidad_maxima || karts.velocidad_maxima,
+                id_personaje: id_personaje || karts.id_personaje
             }
         })
-        if(!verify){
+        if(!karts){
             return res.status(404).json({error: 'No existe un kart con esa id'})
         }
-        const karts = await prisma.karts.update({
-            where{
-                id: Number(id)    
-            },        
-            data: {
-                modelo: modelo || verify.modelo,
-                color: color || verify.color,
-                velocidad_maxima: velocidad_maxima || verify.velocidad_maxima,
-                id_personaje: id_personaje || verify.id_personaje
-            }
-        })
         return res.status(200).json({karts, message: 'Kart actualizado con exito'})    
     }catch(error){
         console.error(error)

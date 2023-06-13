@@ -73,7 +73,7 @@ const updateDefensas_reinos = async (req, res) => {
       }
     })
     if(!verify){
-      return res.status(404).json({error: 'No existe interseccion entre ids proporcionadas, verifiquelas'})
+      res.status(404).json({error: 'No existe interseccion entre ids proporcionadas, verifiquelas'})
     }
     const defensas_reinos = await prisma.defensas_reinos.update({
       where: {
@@ -82,7 +82,10 @@ const updateDefensas_reinos = async (req, res) => {
         },
         data: {}
     })
-    return res.status(200).json({defensas_reinos, message: 'Interseccion actualizada con exito'})
+    if(defensas_reinos){
+      return res.status(404).json({error: 'No existe una interseccion entre las ids entregadas, verificalas'})
+    }
+    res.status(200).json({defensas_reinos, message: 'Interseccion actualizada con exito'})
   }catch (error) {
     console.error(error)
     res.status(500).json({error: 'Error actualizando la interseccion, verifique los datos'})
@@ -92,6 +95,12 @@ const updateDefensas_reinos = async (req, res) => {
 const deleteDefensas_reinos = async (req, res) => {
   try{
     const {id_reinos, id_defensas} = req.params
+    if(!id_reinos){
+      return res.status(404).json({error: 'Debes ingrear una id de reino valida'})
+    }
+    if(!id_defensas){
+      return res.status(404).json({error: 'Debes ingrear una id de defensas valida'})
+    }
     const verify = await prisma.defensas_reinos.findUnique({
       where: {
         id_reino: Number(id_reinos),

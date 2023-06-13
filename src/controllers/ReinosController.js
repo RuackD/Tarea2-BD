@@ -2,12 +2,13 @@ import prisma from '../prismaClient.js'
 
 const createReinos = async (req, res) => {
     try{
-        const {nombre, ubicacion, superficie} = req.body
+        const {nombre, ubicacion, superficie, id} = req.body
         const reinos = await prisma.reinos.create({
             data :{
                 nombre,
                 ubicacion,
-                superficie
+                superficie,
+                id
             }
         })
         return res.status(200).json({reinos, message: 'Reino creado con exito'})
@@ -73,6 +74,7 @@ const updateReinos = async (req, res) => {
         res.status(500).json({error: 'Ha habido un error actualizando el reino, verifique los datos'})
     }
 };
+
 
 const deleteReinos = async (req , res) => {
     try{

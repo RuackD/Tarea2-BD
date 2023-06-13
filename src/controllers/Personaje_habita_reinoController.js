@@ -5,10 +5,10 @@ const createPersonaje_Habita_Reino = async (req, res) => {
   const {fecha_registro, es_gobernante} = req.body
   try {
     const personaje = await prisma.personajes.findUnique({
-      where: {id: id_personaje}
+      where: {id: Number(id_personaje)}
     })
     const reino = await prisma.reinos.findUnique({
-      where: {id: id_reino}
+      where: {id: Number(id_reino)}
     })
     if(!personaje) {
       return res.status(404).json({error: 'No existe el personaje con ese id'})
@@ -18,8 +18,8 @@ const createPersonaje_Habita_Reino = async (req, res) => {
     }
     const personaje_habita_reino = await prisma.personaje_habita_reino.create({
       data: {
-        id_personaje: {connect: {id_personaje: id_personaje}},
-        id_reino: {connect: {id_reino: id_reino}},
+        personaje_id: Number(id_personaje),
+        reino_id: Number(id_reino),
         fecha_registro,
         es_gobernante
       }
@@ -82,11 +82,14 @@ const updatePersonaje_habita_reino = async (req, res) => {
     },
     {
       data: {
-        fecha_registro: fecha_registro || verify.fecha_registro,
-        es_gobernante: es_gobernante || verify.es_gobernante
+        fecha_registro: fecha_registro || personaje_habita_reino.fecha_registro,
+        es_gobernante: es_gobernante || personaje_habita_reino.es_gobernante
       }
     })
-    return res.status(200).json({personaje_habita_reino, message: 'Interseccion actualizada con exito'})
+    if(!personaje_habita_reino){
+      return res.status(404).json({error: 'No existe una interseccion entre las ids entregadas, verificalas'})
+    }
+    res.status(200).json({personaje_habita_reino, message: 'Interseccion actualizada con exito'})
   }catch (error) {
     console.error(error)
     res.status(500).json({error: 'Error actualizando la interseccion, verifique los datos'})

@@ -14,7 +14,7 @@ model Personajes {
   id               Int      @unique
   nombre           String
   fuerza           Int
-  fecha_nacimiento DateTime
+  fecha_nacimiento String
   objeto           String?
 
   kart Karts[]
@@ -41,8 +41,8 @@ model Personaje_tiene_trabajo {
   id_personaje Int        @unique
   personaje    Personajes @relation(fields: [id_personaje], references: [id])
 
-  fecha_inicio  DateTime
-  fecha_termino DateTime?
+  fecha_inicio  String
+  fecha_termino String?
 }
 
 model Trabajos {
@@ -60,7 +60,7 @@ model Personaje_habita_reino {
   id_reino Int    @unique
   reino    Reinos @relation(fields: [id_reino], references: [id])
 
-  fecha_registro DateTime
+  fecha_registro String
   es_gobernante  Boolean
 }
 

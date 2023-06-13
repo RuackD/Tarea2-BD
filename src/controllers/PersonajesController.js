@@ -1,20 +1,22 @@
 import prisma from '../prismaClient.js'
+
             
 const createPersonajes = async (req , res) => {
     try{
-        const { nombre, fuerza, fecha_nacimiento, objeto } = req.body
+        const { nombre, fuerza, fecha_nacimiento, objeto, id } = req.body
         const personajes = await prisma.personajes.create({ 
             data :{
                 nombre,
                 fuerza,
                 fecha_nacimiento,
-                objeto
+                objeto,
+                id
             }  
         })
-        return res.status(200),json({personajes, message: 'Personaje creado con exito'})
+        return res.status(200).json({personajes, message: 'Personaje creado con exito'})
     }catch(error){
         console.error(error)
-        res.status(500).json({error: 'Ha ocurrido un error al crea el personaje, verifique los datos'})
+        res.status(500).json({error: 'Ha ocurrido un error al crear el personaje, verifique los datos'})
     }
   };
 
@@ -68,8 +70,8 @@ const updatePersonajes = async (req, res) => {
                 fecha_nacimiento: fecha_nacimiento || verify.fecha_nacimiento,
                 objeto: objeto || verify.objeto,
             }   
-        }                                                          
-        return res.status(200).json({personajes, message: 'Personaje actualizado con exito'})
+        })                                                          
+        return res.status(200).json({personajes, message: 'Personaje actualizado con exito'});
     }catch(error){
         console.error(error)
         res.status(500).json({error: 'Ha habido un error al actualizar el personaje, verifique los datos'})

@@ -68,14 +68,11 @@ const updatePersonaje_tiene_trabajo = async (req, res) => {
   try{
     const {id_personaje, id_trabajo} = req.params
     const {fecha_inicio, fecha_termino} = req.body
-    const verify = await prisma.personaje_tiene_trabajo.update({
-      where: {
-        id_personaje : Number(id_personaje),
-        id_trabajo: Number(id_trabajo)
-        }
+    if(!id_personaje){
+      return res.status(404).json({error: 'Debes ingrear una id de personaje valida'})
     }
-    if(!verify){
-      return res.status(404).json({error: 'No existe una interseccion entre las ids entregadas, verificalas'})
+    if(!id_trabajo){
+      return res.status(404).json({error: 'Debes ingrear una id de trabajo valida'})
     }
     const personaje_tiene_trabajo = await prisma.personaje_tiene_trabajo.update({
       where: {
@@ -85,11 +82,14 @@ const updatePersonaje_tiene_trabajo = async (req, res) => {
     },
     {
       data: {
-        fecha_inicio: fecha_inicio || verify.fecha_inicio,
-        fecha_termino: fecha_termino || verify.fecha_termino
+        fecha_inicio: fecha_inicio || personaje_tiene_trabajo.fecha_inicio,
+        fecha_termino: fecha_termino || personaje_tiene_trabajo.fecha_termino
       }
     })
-    return res.status(200).json({personaje_tiene_trabajo, message: 'Interseccion actualizada con exito'})
+    if(!personaje_tiene_trabajo){
+      return res.status(404).json({error: 'No existe una interseccion entre las ids entregadas, verificalas'})
+    }
+    res.status(200).json({personaje_tiene_trabajo, message: 'Interseccion actualizada con exito'})
   }catch (error) {
     console.error(error)
     res.status(500).json({error: 'Error actualizando la interseccion, verifique los datos'})

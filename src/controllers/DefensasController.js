@@ -2,10 +2,11 @@ import prisma from '../prismaClient.js'
 
 const createDefensas = async (req, res) => {
     try{
-        const{ defensa } = req.body
+        const{ defensa, id } = req.body
         const defensas = await prisma.defensas.create({
             data: {
-                defensa
+                defensa,
+                id
             }
         })
         return res.status(200).json({defensas, message: 'Defensa creada correctamente'})

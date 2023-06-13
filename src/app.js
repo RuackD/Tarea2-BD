@@ -31,7 +31,7 @@ app.get('/Defensas', DefensasController.getDefensas);
 app.get('/Defensas/:id', DefensasController.getDefensasById);
 app.post('/Defensas', DefensasController.createDefensas);
 app.put('/Defensas/:id', DefensasController.updateDefensas);
-app.delete('/Defensas', DefensasController.deleteDefensas);
+app.delete('/Defensas/:id', DefensasController.deleteDefensas);
 
 //endpointsDiplomacias
 app.get('/Diplomacias', DiplomaciasController.getDiplomacias);
@@ -50,7 +50,7 @@ app.delete('/Karts/:id', KartsController.deleteKarts);
 //endopintsPersonaje_habita_reino
 app.get('/Personaje_habita_reino', Personaje_habita_reinoController.getPersonaje_habita_reino);
 app.get('/Personaje_habita_reino/:id_personaje/:id_reino', Personaje_habita_reinoController.getPersonaje_habita_reinoById);
-app.post('/Personaje_habita_reino', Personaje_habita_reinoController.createPersonaje_Habita_Reino);
+app.post('/Personaje_habita_reino/:id_personaje/:id_reino', Personaje_habita_reinoController.createPersonaje_Habita_Reino);
 app.put('/Personaje_habita_reino/:id_personaje/:id_reino', Personaje_habita_reinoController.updatePersonaje_habita_reino);
 app.delete('/Personaje_habita_reino/:id_personaje/:id_reino', Personaje_habita_reinoController.deletePersonaje_habita_reino);
 
