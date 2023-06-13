@@ -50,21 +50,25 @@ const updatePersonajes = async (req, res) => {
     try{
         const { id } = req.params
         const {nombre, fuerza, fecha_nacimiento, objeto} = req.body
+        const verify = await prisma.personajes.findUnique({
+            where: {
+                id: Number(id)
+            } 
+        })
+        if(!verify){
+            return res.status(404).json({error: 'No existe un personaje con esa id' })
+        }        
         const personajes = await prisma.personajes.update({
             where: { 
                 id: Number(id) 
             },
             data: {
-                nombre: nombre || personajes.nombre,
-                fuerza: fuerza || personajes.fuerza,
-                fecha_nacimiento: fecha_nacimiento || personajes.fecha_nacimiento,
-                objeto: objeto || personajes.objeto,
-            }
-            
-        })
-        if(!personajes){
-            return res.status(404).json({error: 'No existe un personaje con esa id' })
-        }
+                nombre: nombre || verify.nombre,
+                fuerza: fuerza || verify.fuerza,
+                fecha_nacimiento: fecha_nacimiento || verify.fecha_nacimiento,
+                objeto: objeto || verify.objeto,
+            }   
+        }                                                          
         return res.status(200).json({personajes, message: 'Personaje actualizado con exito'})
     }catch(error){
         console.error(error)
