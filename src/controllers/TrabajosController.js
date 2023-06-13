@@ -48,18 +48,23 @@ const updateTrabajos = async (req, res) => {
     try{
         const { id } = req.params
         const{ descripcion, sueldo} = req.body
+        const verify = await prisma.trabajos.update({
+            where: {
+                id: Number(id)
+            }
+        })
+        if(!verify){
+            return res.status(404).json({error: 'No existe un trabajo con esa id'})
+        }
         const trabajos = await prisma.trabajos.update({ 
             where: { 
                 id: Number(id) 
             }, 
             data: {
-                descripcion: descripcion || trabajos.descripcion,
-                sueldo: sueldo || trabajos.sueldo
+                descripcion: descripcion || verify.descripcion,
+                sueldo: sueldo || verify.sueldo
             } 
         })
-        if(!trabajos){
-            return res.status(404).json({error: 'No existe un trabajo con esa id'})
-        }
         return res.status(200).json({trabajos, message: 'Trabajo actualizado con exito'})
     }catch(error){
         console.error(error)
